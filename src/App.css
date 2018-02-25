@@ -1,0 +1,36 @@
+.header {
+  background-color: #002626;
+  color: #EFE7DA;
+
+  padding: 10px;
+}
+
+.title {
+  font-size: 1.8rem;
+}
+
+.experiment-list {
+  background: #0E4749;
+  color: #EFE7DA;
+
+  display: flex;
+
+  font-size: 1.4rem;
+}
+
+.experiment {
+  padding: 10px;
+}
+
+.experiment-link {
+  padding: 10px;
+  color: white;
+}
+
+.experiment-title {
+  font-size: 1.6rem;
+}
+
+p {
+  font-size: 1.2rem;
+}
