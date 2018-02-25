@@ -1,5 +1,6 @@
 import React from 'react'
 import * as R from 'ramda'
+import './experiment.css'
 
 const defaultOptions = {
   size: [500, 500],
@@ -60,14 +61,24 @@ export function controlExperiment (doExperiment, controls, maybeOptions) {
       return <div>
         <canvas width={options.size[0]} height={options.size[1]} ref={this.renderCanvas.bind(this)} />
 
-        <div>
+        <div className="controls">
           {
-            R.keys(controls).map(controlName => (
-              <div>
-                <span>{ controlName }</span>
-                <input type="text" value={this.state[controlName]} onChange={this.updateControl.call(this, controlName)} />
-              </div>
-            ))
+            R.keys(controls).map(controlName => {
+              const type = controls[controlName].type
+              return (
+                <div className="control">
+                  <span className="control-name">{controlName}</span>
+                  <div className="control-input-wrap">
+                    <input className="control-input" type="text" value={this.state[controlName]}
+                           onChange={this.updateControl.call(this, controlName)}/>
+
+                    {
+                      type && <div className="type-hint">{ type }</div>
+                    }
+                  </div>
+                </div>
+              )
+            })
           }
         </div>
       </div>

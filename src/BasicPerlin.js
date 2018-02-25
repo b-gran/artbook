@@ -134,8 +134,7 @@ function perlin (repeat = -1) {
   }
 }
 
-function perlinOctave (numberOctaves, repeat = -1) {
-  const persistence = 2
+function perlinOctave (numberOctaves, persistence = 2, repeat = -1) {
   const octaves = R.times(() => perlin(repeat), numberOctaves)
   const maxValue = octaves.reduce(
     (max, _, n) => max + Math.pow(persistence, n),
@@ -171,7 +170,7 @@ export default controlExperiment(
       size[0]
     )
 
-    const P = perlinOctave(2)
+    const P = perlinOctave(2, controls.persistence)
 
     for (let x = 0; x < size[0]; x++) {
       for (let y = 0; y < size[1]; y++) {
@@ -204,10 +203,17 @@ export default controlExperiment(
     rows: {
       default: 10,
       parse: parseInteger,
+      type: 'int',
     },
     columns: {
       default: 10,
       parse: parseInteger,
+      type: 'int',
+    },
+    persistence: {
+      default: 2,
+      parse: parseInteger,
+      type: 'float',
     },
   },
   {
