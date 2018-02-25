@@ -126,13 +126,37 @@ function perlin (repeat = -1) {
 
   // easing function
   function fade (t) {
-    // return t * t * t * (t * (t * 6 - 15) + 10)
     return t * t * t * (t * (t * 6 - 15) + 10)
   }
   // linearly interpolate between two points
   function lerp (a, b, x) {
     return a + x * (b - a)
   }
+}
+
+function perlinOctave (numberOctaves, repeat = -1) {
+  const persistence = 2
+  const octaves = R.times(() => perlin(repeat), numberOctaves)
+  const maxValue = octaves.reduce(
+    (max, _, n) => max + Math.pow(persistence, n),
+    0,
+  )
+
+  return R.curry((x, y, z) => {
+    const initialNoise = octaves.reduce(
+      (accumulatedNoise, p, n) => {
+        const frequency = Math.pow(2, n)
+        const noise = p(
+          x / frequency,
+          y / frequency,
+          z / frequency,
+        )
+        return accumulatedNoise + noise * Math.pow(persistence, n)
+      },
+      0
+    )
+    return initialNoise / maxValue
+  })
 }
 
 export default controlExperiment(
@@ -147,35 +171,31 @@ export default controlExperiment(
       size[0]
     )
 
-    const P = perlin()
+    const P = perlinOctave(2)
 
     for (let x = 0; x < size[0]; x++) {
       for (let y = 0; y < size[1]; y++) {
         const opacity = P(x / cellSizes[0], y / cellSizes[1], 0)
+        // Draw the vanilla perlin noise in the top square
         ctx.fillStyle = `rgba(0, 0, 0, ${opacity})`
-        ctx.fillRect(x, y + size[1], 1, 1)
+        ctx.fillRect(x, y, 1, 1)
 
-        // image[y][x] = (0xFFFFFF * opacity)|0
-
+        // Store the result in the matrix so we can apply filters
         const v = ((0xFF * opacity) ^ 0xFF)|0
         image[y][x] = v
-
-        // const valueHexString = toHexString(v)
-        // image[y][x] = parseInt(`${valueHexString}${valueHexString}${valueHexString}`, 16)
-        // image[y][x] = `#${valueHexString}${valueHexString}${valueHexString}`
       }
     }
 
-    convolveWith(R.clamp(0, 255), kblur, image)
+    // Apply some filters
     convolveWith(R.clamp(0, 255), kedge2, image)
 
     image.forEach(
       (row, rowIndex) => row.forEach(
         (pixel, colIndex) => {
-          // ctx.fillStyle = `#${pixel.toString(16)}`
+          // Draw the filtered noise in the bottom square
           const pixelHexString = toHexString(pixel|0)
           ctx.fillStyle = `#${pixelHexString}${pixelHexString}${pixelHexString}`
-          ctx.fillRect(colIndex, rowIndex, 1, 1)
+          ctx.fillRect(colIndex, rowIndex + size[1], 1, 1)
         }
       )
     )
@@ -191,7 +211,6 @@ export default controlExperiment(
     },
   },
   {
-    // size: [300, 300]
     size: [600, 600]
   }
 )
