@@ -80,6 +80,10 @@ export function forEachMatrix (f, matrix) {
 //    f(element: a, position: [rowIndex(int), columnIndex(int)], matrix: Matrix a, matrixDimensions: [rows(int), columns(int)])
 export function mapMatrix (f, matrix) {
   const copy = []
+  if (!matrix) {
+    return copy
+  }
+
   forEachMatrix(
     (el, [row, column], ...rest) => {
       copy[row] = copy[row] || []

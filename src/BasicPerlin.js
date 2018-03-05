@@ -221,6 +221,11 @@ export default controlExperiment(
     },
     kernel: {
       type: 'matrix',
+      default: [
+        [0, 0, 0],
+        [0, 1, 0],
+        [0, 0, 0],
+      ],
       parse: m => mapMatrix(
         el => {
           if (typeof el === 'number') {
@@ -234,7 +239,7 @@ export default controlExperiment(
           return 0
         },
         m
-      )
+      ),
     },
   },
   {
