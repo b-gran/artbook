@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import experiment from './experiment'
+import { controlExperiment, parseInteger } from './experiment'
 
 const addVec = R.curry((a, b) => [
   a[0] + b[0],
@@ -21,21 +21,22 @@ const squareAround = R.curry((center, size) => [
   addVec(center, [-size, -size]),
 ])
 
-export default experiment(canvas => {
+export default controlExperiment((canvas, controls) => {
   const ctx = canvas.getContext('2d')
 
   // config options for the drawing
   const center = [250, 250] // center of all the rects
   const size = 100 // side length of the rect
   const initialRotation = Math.PI / 4
-  const count = 7
+  const count = controls.count
+  const max = controls.max
   const initialSquare = squareAround([0, 0], size)
   ctx.fillStyle = 'white'
   ctx.strokeStyle = 'red'
 
   R.times(n => {
     // rotation of this particular square
-    const rotation = initialRotation + ((n / count) * Math.PI * 2)
+    const rotation = initialRotation + ((n / max) * Math.PI * 2)
 
     // the corners defining this square, centered at the center point
     const square = R.map(
@@ -60,4 +61,17 @@ export default experiment(canvas => {
     ctx.fill()
     ctx.stroke()
   }, count)
+}, {
+  count: {
+    default: 7,
+    parse: parseInteger,
+    type: 'int',
+  },
+  max: {
+    default: 7,
+    parse: parseInteger,
+    type: 'int',
+  }
+}, {
+  name: 'RotatedSquares'
 })
