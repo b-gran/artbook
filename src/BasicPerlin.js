@@ -222,9 +222,9 @@ export default controlExperiment(
     kernel: {
       type: 'matrix',
       default: [
-        [0, 0, 0],
-        [0, 1, 0],
-        [0, 0, 0],
+        [ 0, 1,  0],
+        [-2, 1, -1],
+        [ 0, 1,  0],
       ],
       parse: m => mapMatrix(
         el => {

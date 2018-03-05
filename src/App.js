@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
 import './App.css'
 import Static from './Static'
 import Squares from './RotatedSquares'
@@ -23,6 +23,8 @@ class App extends Component {
               <div className="experiment-link">Perlin noise</div>
             </Link>
           </div>
+
+          <Route exact path='/' render={() => <Redirect to='/straight-perlin'/>}/>
 
           <Route path='/basic-static' render={() => (
             <div className='experiment'>
