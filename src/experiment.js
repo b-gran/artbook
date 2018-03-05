@@ -95,42 +95,44 @@ export function controlExperiment (doExperiment, controls, maybeOptions) {
     }
 
     render () {
-      return <div>
-        <canvas width={options.size[0]} height={options.size[1]} ref={this.renderCanvas.bind(this)} />
+      return (<div className="wrap">
+        <div className="control-wrap">
+          <canvas width={options.size[0]} height={options.size[1]} ref={this.renderCanvas.bind(this)} />
 
-        <div className="controls">
-          {
-            R.keys(controls).map(controlName => {
-              const type = controls[controlName].type
+          <div className="controls">
+            {
+              R.keys(controls).map(controlName => {
+                const type = controls[controlName].type
 
-              if (type === 'matrix') {
+                if (type === 'matrix') {
+                  return (
+                    <div className="control">
+                      <span className="control-name">{controlName}</span>
+                      <MatrixEditor value={this.state[controlName]} size={3} onChange={(value, position, matrix) => this.setState({
+                        [controlName]: updateMatrix(position, value, matrix),
+                      })} />
+                    </div>
+                  )
+                }
+
                 return (
                   <div className="control">
                     <span className="control-name">{controlName}</span>
-                    <MatrixEditor value={this.state[controlName]} size={3} onChange={(value, position, matrix) => this.setState({
-                      [controlName]: updateMatrix(position, value, matrix),
-                    })} />
+                    <div className="control-input-wrap">
+                      <input className="control-input" type="text" value={this.state[controlName]}
+                             onChange={this.updateControl.call(this, controlName)}/>
+
+                      {
+                        type && <div className="type-hint">{ type }</div>
+                      }
+                    </div>
                   </div>
                 )
-              }
-
-              return (
-                <div className="control">
-                  <span className="control-name">{controlName}</span>
-                  <div className="control-input-wrap">
-                    <input className="control-input" type="text" value={this.state[controlName]}
-                           onChange={this.updateControl.call(this, controlName)}/>
-
-                    {
-                      type && <div className="type-hint">{ type }</div>
-                    }
-                  </div>
-                </div>
-              )
-            })
-          }
+              })
+            }
+          </div>
         </div>
-      </div>
+      </div>)
     }
   }
 }

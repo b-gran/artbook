@@ -1,3 +1,16 @@
+.wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.control-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .controls {
   display: table;
 }
