@@ -3,24 +3,28 @@ import { controlExperiment, parseInteger, parseFloat } from './experiment'
 import { getPermutation, toHexString } from './util'
 import { convolveWith, mapMatrix } from './matrix'
 
+// Doesn't change the input
 const kident = [
   [0, 0, 0],
   [0, 1, 0],
   [0, 0, 0],
 ]
 
+// Edge detection
 const kedge = [
   [1, 0, -1],
   [0, 0, 0],
   [-1, 0, 1],
 ]
 
+// Edge detection
 const kedge2 = [
   [-1, -1, -1],
   [-1,  8, -1],
   [-1, -1, -1],
 ]
 
+// Blur
 const kblur = [
   [1/9, 1/9, 1/9],
   [1/9, 1/9, 1/9],
@@ -234,7 +238,7 @@ export default controlExperiment(
     },
   },
   {
-    size: [600, 600],
+    size: [300, 600],
     name: 'BasicPerlin'
   }
 )
