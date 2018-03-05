@@ -31,6 +31,48 @@ describe('forEachMatrix', () => {
   })
 })
 
+describe('mapMatrix', () => {
+  const testMatrix = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+  ]
+
+  it('calls the iteratee with every element in the input matrix', () => {
+    let countFunctionCalls = 0
+
+    const actualMatrixDimensions = matrix.getMatrixDimensions(testMatrix)
+    const actualRow = n => (n / actualMatrixDimensions[0])|0
+    const actualColumn = n => (n % actualMatrixDimensions[1])
+
+    matrix.forEachMatrix(
+      (el, [row, column], m, dimensions) => {
+        expect(actualRow(countFunctionCalls)).toBe(row)
+        expect(actualColumn(countFunctionCalls)).toBe(column)
+        expect(m).toBe(testMatrix)
+        expect(el).toBe(testMatrix[row][column])
+        expect(dimensions[0]).toBe(actualMatrixDimensions[0])
+        expect(dimensions[1]).toBe(actualMatrixDimensions[1])
+
+        countFunctionCalls += 1
+      },
+      testMatrix
+    )
+  })
+
+  it('returns a new matrix whose values are the result of calling the iteratee', () => {
+    const iteratee = n => n + 3
+    const expectedResult = [
+      [3,  4,  5],
+      [6,  7,  8],
+      [9, 10, 11],
+    ]
+
+    const actualMappedMatrix = matrix.mapMatrix(iteratee, testMatrix)
+    expect(actualMappedMatrix).toEqual(expectedResult)
+  })
+})
+
 describe('isKernelInImage', () => {
   const kernel = [
     [1, 2, 3],

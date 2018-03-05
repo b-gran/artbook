@@ -1,7 +1,7 @@
 import * as R from 'ramda'
-import { controlExperiment, parseInteger } from './experiment'
+import { controlExperiment, parseInteger, parseFloat } from './experiment'
 import { getPermutation, toHexString } from './util'
-import { convolveWith } from './matrix'
+import { convolveWith, mapMatrix } from './matrix'
 
 const kident = [
   [0, 0, 0],
@@ -186,7 +186,7 @@ export default controlExperiment(
     }
 
     // Apply some filters
-    convolveWith(R.clamp(0, 255), kedge2, image)
+    convolveWith(R.clamp(0, 255), controls.kernel, image)
 
     image.forEach(
       (row, rowIndex) => row.forEach(
@@ -212,11 +212,29 @@ export default controlExperiment(
     },
     persistence: {
       default: 2,
-      parse: parseInteger,
+      parse: parseFloat,
       type: 'float',
+    },
+    kernel: {
+      type: 'matrix',
+      parse: m => mapMatrix(
+        el => {
+          if (typeof el === 'number') {
+            return el
+          }
+
+          if (typeof el === 'string') {
+            return parseFloat(el)
+          }
+
+          return 0
+        },
+        m
+      )
     },
   },
   {
-    size: [600, 600]
+    size: [600, 600],
+    name: 'BasicPerlin'
   }
 )

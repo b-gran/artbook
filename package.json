@@ -5,6 +5,7 @@
   "dependencies": {
     "fsevents": "^1.1.3",
     "jest-cli": "^22.4.2",
+    "prop-types": "^15.6.1",
     "ramda": "^0.25.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

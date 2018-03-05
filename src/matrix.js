@@ -2,6 +2,8 @@ import assert from 'assert'
 import * as R from 'ramda'
 import { inRange, mod } from './util'
 
+export const updateMatrix = R.useWith(R.assocPath, [R.identity, R.identity, R.clone])
+
 // Algo for applying a kernel to an image
 // The kernel is an n x n matrix of Numbers
 // The "image" is an m x m matrix of Numbers (hex numbers in the range 0x000000 - 0xFFFFFF)
@@ -69,6 +71,23 @@ export function forEachMatrix (f, matrix) {
       f(element, [rowIndex, columnIndex], matrix, dimensions)
     }
   }
+}
+
+// mapMatrix :: (a -> b) -> Matrix a -> b
+// Iterate over all elements of a matrix, creating a new matrix whose values are the
+// result of iteratee applied to the result of the input matrix.
+// The function is called as follows:
+//    f(element: a, position: [rowIndex(int), columnIndex(int)], matrix: Matrix a, matrixDimensions: [rows(int), columns(int)])
+export function mapMatrix (f, matrix) {
+  const copy = []
+  forEachMatrix(
+    (el, [row, column], ...rest) => {
+      copy[row] = copy[row] || []
+      copy[row][column] = f(el, [row, column], ...rest)
+    },
+    matrix
+  )
+  return copy
 }
 
 export function isKernelInImage (kernel, image, [row, column]) {
