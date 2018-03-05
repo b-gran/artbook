@@ -10,9 +10,6 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <header className="header">
-            <h1 className="title">Artbook</h1>
-          </header>
           <div className="experiment-list">
             <Link to='/basic-static'>
               <div className="experiment-link">Static</div>
