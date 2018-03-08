@@ -1,0 +1,2 @@
+127.0.0.1 - - [08/Mar/2018:23:06:05 +0000] "GET /artbook/service-worker.js HTTP/1.1" 304 0 "http://localhost:8080/artbook/a/straight-perlin" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36"
+127.0.0.1 - - [08/Mar/2018:23:06:05 +0000] "GET /artbook/favicon.ico HTTP/1.1" 200 3870 "http://localhost:8080/artbook/a/straight-perlin" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.167 Safari/537.36"
