@@ -25,3 +25,6 @@ yarn-error.log*
 
 # We aren't using yarn
 yarn.lock
+
+# Keep research around
+research
