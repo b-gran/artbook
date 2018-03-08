@@ -1,6 +1,7 @@
 ## Artbook
 
 Procedurally generated art experiments written in JavaScript.
+Check them out at [https://b-gran.github.io/artbook/](https://b-gran.github.io/artbook/).
 
 ### Running yourself
 ```
