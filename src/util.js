@@ -4,10 +4,36 @@ export const inRange = R.curry((bounds, value) => {
   return value >= bounds[0] && value <= bounds[1]
 })
 
-export function randomInt (min, max) {
+// Return a random integer in the range [min, max) exclusive using the supplied function
+// for randomness.
+// The function `random` must return values in the range [0, 1)
+function randomIntBy (random, min, max) {
   const actualMin = Math.min(min, max)
   const actualMax = Math.max(min, max)
-  return Math.floor(Math.random() * (actualMax - actualMin)) + actualMin
+  return Math.floor(random() * (actualMax - actualMin)) + actualMin
+}
+
+// // Return a (uniformly) random integer in the range [min, max) exclusive
+export const randomInt = R.curry(randomIntBy)(Math.random)
+
+// Return a random integer between min and max selected from a non-uniform distribution.
+// f represents the distribution. f must take a value in [0, 1) and return a value in [0, 1)
+export const randomIntWithDistribution = R.pipe(
+  // Given a function f that maps random numbers to other floats in [0, 1),
+  // returns a new 0-arity function that calls f with a random float.
+  R.flip(R.map)(Math.random),
+
+  // Passes the transformed RNG to the random int function
+  R.curry(randomIntBy)
+)
+
+// Return a value taken uniformly at random from an array
+export function sample (array) {
+  if (!array || R.isEmpty(array)) {
+    return undefined
+  }
+
+  return array[randomInt(0, array.length)]
 }
 
 // Computes n (mod m)
