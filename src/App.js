@@ -4,6 +4,7 @@ import './App.css'
 import Static from './Static'
 import Squares from './RotatedSquares'
 import BasicPerlin from './BasicPerlin'
+import VHS1 from './VHS1'
 
 class App extends Component {
   render() {
@@ -23,6 +24,10 @@ class App extends Component {
 
                 <Link to='/a/straight-perlin'>
                   <div className="experiment-link">Perlin noise</div>
+                </Link>
+
+                <Link to='/a/vhs-1'>
+                  <div className="experiment-link">VHS deterioration 1</div>
                 </Link>
               </div>
 
@@ -56,6 +61,18 @@ class App extends Component {
                   </p>
 
                   <BasicPerlin />
+                </div>
+              )}/>
+
+              <Route path='/a/vhs-1' render={() => (
+                <div className='experiment'>
+                  <h2 className='experiment-title'>VHS deterioration 1</h2>
+
+                  <p>
+                    Applies a vhs deterioration effect to a single image
+                  </p>
+
+                  <VHS1 />
                 </div>
               )}/>
             </div>
